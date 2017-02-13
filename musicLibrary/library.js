@@ -38,6 +38,7 @@ var printPlaylists = function () {
     var id = playlists[key].id;
     var name = playlists[key].name;
     var tracks = playlists[key].tracks;
+
     results += id + ":" + name + " - " + tracks.length + " tracks" + '\n';
   }
     console.log(results);
@@ -73,34 +74,30 @@ printTracks();
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 
 var printPlaylist = function (playlistId) {
-  var playlists = library.playlists;
-  var tracks = library.tracks;
-  var results = "";
-  for(var key in playlists){
-    if(playlists[key].id === playlistId) {
-      results = playlists[key].id + ":" + playlists[key].name + " - " + playlists[key].tracks.length + " tracks" + '\n';
-    }
-    // for(var key in tracks){
-    //   if(tracks[key].id === playlists[key].tracks[i]) {
-
-    //   }
-    // }
+  var pList = library.playlists[playlistId];
+  console.log(pList.id + ": " + pList.name + " - " + pList.tracks.length + " tracks" );
+  var pTracks = pList['tracks'];
+  for (var k in pTracks){
+    var track = library.tracks[pTracks[k]];
+    console.log(track.id + ": " + track.name + " by " + track.artist + ' (' + track.album + ')');
   }
-  console.log(results);
+
+
 }
-printPlaylist('p01');
+printPlaylist('p02');
 
 
-// adds an existing track to an existing playlist
+//adds an existing track to an existing playlist
 
 var addTrackToPlaylist = function (trackId, playlistId) {
-
+  var pList = library.playlists[playlistId];
+  pList.tracks.push(trackId);
+  console.log(pList.tracks);
 }
 
-
+addTrackToPlaylist("t01", "p02");
 // generates a unique id
 // (use this for addTrack and addPlaylist)
-
 var uid = function() {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 }
@@ -109,24 +106,21 @@ var uid = function() {
 // adds a track to the library
 
 var addTrack = function (name, artist, album) {
-//   var userId = uid();
-//   var tracks = library.tracks;
-//   tracks.userId.push({
-//     userId,
-//     name,
-//     artist,
-//     album
-//   });
-//   console.log(tracks);
+  var tracks = library.tracks;
+  tracks["t04"] = {id: 't04', name: name, artist: artist, album: album};
+  console.log(tracks);
 }
-//  addTrack();
-
+ addTrack('Code Love', 'The codettes', 'From Russia with code');
 
 // adds a playlist to the library
 
 var addPlaylist = function (name) {
-
+  var pList = library["playlists"];
+  pList['p03'] = {id: 'p03', name: name, tracks:["t03", "t04"] };
+  console.log(pList);
 }
+
+addPlaylist('Started from UNIX');
 
 
 // STRETCH:
